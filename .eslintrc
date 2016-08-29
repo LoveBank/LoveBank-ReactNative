@@ -1,0 +1,14 @@
+{
+  "extends": "airbnb",
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module",
+      "allowImportExportEverywhere": false
+    },
+    "globals": {
+      "fetch": true
+    },
+    "rules": {
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    }
+}

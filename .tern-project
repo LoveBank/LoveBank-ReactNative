@@ -1,0 +1,9 @@
+{
+  "plugins": {
+    "node": {}
+  },
+  "loadEagerly": [
+    "./src/**/*.js",
+    "./node_modules/react/react.js"
+  ]
+}
