@@ -14,12 +14,21 @@ import {
   MKButton,
 } from 'react-native-material-kit';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+const { width, height } = Dimensions.get('window');
+const FlatButton = MKButton.coloredButton().build();
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#c62828',
+    height: height - (height * 0.5),
+    width: width - 40,
+    margin: 20,
+    marginTop: 80,
   },
 });
 
@@ -47,7 +56,6 @@ export default class EntryModal extends Component {
   }
 
   render() {
-    const { width } = Dimensions.get('window');
     return (
       <Modal
         animationType={"fade"}
@@ -63,18 +71,17 @@ export default class EntryModal extends Component {
               fontWeight: '200',
               color: '#fff',
             }}
-            floatingLabelEnabled
             placeholder="Entry"
+            multiline
             placeholderTextColor="#fff"
             tintColor="#fff"
-            highlightColor="#CC0000"
+            highlightColor="#fff"
             textInputStyle={{ color: '#fff' }}
-            style={{ margin: 40, width: width - 80 }}
+            style={{ margin: 40, marginTop: 0, width: width - 80, height: 200 }}
             onChangeText={this.onChangeText}
           />
           <Picker
             style={{
-              margin: 40,
               width: width - 80,
               color: '#fff',
             }}
@@ -91,12 +98,28 @@ export default class EntryModal extends Component {
             <Picker.Item label="5" value={5} />
           </Picker>
           <View>
-
-            <TouchableHighlight onPress={() => this.props.onSubmit(this.state.entry, this.state.rating)} >
-              <Text style={{ color: '#fff' }}>Submit</Text>
-            </TouchableHighlight>
-
+            <FlatButton
+              onPress={() => this.props.onSubmit(this.state.entry, this.state.rating)}
+              backgroundColor="highlightC0"
+              shadowRadius={2}
+              shadowOffset={{ width: 0, height: 2 }}
+              shadowOpacity={0.7}
+              shadowColor="black"
+              style={{ backgroundColor: '#CC0000', width: width - 100 }}
+            >
+              <Text
+                style={{ color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                  margin: 5,
+                  textAlign: 'center',
+                }}
+              >Submit</Text>
+            </FlatButton>
           </View>
+          <TouchableHighlight onPress={this.props.onRequestClose} style={{ position: 'absolute', top: 20, right: 20 }}>
+            <Icon size={20} name="times" color="#fff" />
+          </TouchableHighlight>
         </View>
       </Modal>
     );
