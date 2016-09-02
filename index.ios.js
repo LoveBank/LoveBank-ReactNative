@@ -1,48 +1,96 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+import React, { Component } from 'react';
+import { AppRegistry, AsyncStorage, View, StyleSheet, ActivityIndicator, Navigator } from 'react-native';
+import { Scene, Router } from 'react-native-router-flux';
+import { Provider } from 'react-redux';
+import { createStore, compose } from 'redux';
+import { persistStore, autoRehydrate } from 'redux-persist';
 
-import React, {Component} from "react";
+import Reactotron from 'reactotron';
+import Util from './src/util/util';
+import Login from './src/containers/Login';
+import FindOther from './src/containers/FindOther';
+import Review from './src/containers/Review';
+import reducers from './src/reducers';
 
-import {AppRegistry, StyleSheet, Text, View} from "react-native";
+Reactotron.connect({ enabled: __DEV__ });
 
-class LoveBank extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
+const enhancer = compose(
+  Reactotron.storeEnhancer(),
+  autoRehydrate()
+);
+
+console.ignoredYellowBox = [
+  'Warning: You are manually calling a React.PropTypes validation',
+];
+
+const store = createStore(reducers, {}, enhancer);
+if (module.hot) {
+  module.hot.accept(() => store.replaceReducer(reducers));
 }
+Reactotron.addReduxStore(store);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    backgroundColor: '#c62828',
   },
 });
+
+class LoveBank extends Component {
+  constructor() {
+    super();
+    this.state = { rehydrated: false };
+  }
+
+  componentWillMount() {
+    persistStore(store, { storage: AsyncStorage }, (err, state) => {
+      this.setState({ rehydrated: true, ...state });
+    });
+  }
+
+
+  render() {
+    if (!this.state.rehydrated) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator color="#fff" size="large" animating />
+        </View>
+      );
+    }
+    return (<Provider store={store}>
+      <Router>
+        <Scene key="root">
+          <Scene
+            key="login"
+            title="Login"
+            initial={!Util.isEmpty(this.state.user) ? false : true}
+            hideNavBar
+            component={Login}
+          />
+          <Scene
+            key="findother"
+            title="FindOther"
+            initial={!Util.isEmpty(this.state.user) && Util.isEmpty(this.state.other) ? true : false}
+            hideNavBar
+            component={FindOther}
+          />
+          <Scene
+            key="review"
+            hideNavBar={false}
+            navigationBarStyle={{ backgroundColor: '#c62828' }}
+            titleStyle={{ color: '#fff', fontWeight: 'bold', textAlign: 'left', marginLeft: 20 }}
+            sceneStyle={{ paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight - 2 }}
+            title="Love Treasury"
+            initial={!Util.isEmpty(this.state.user) && !Util.isEmpty(this.state.other) ? true : false}
+            component={Review}
+          >
+          </Scene>
+        </Scene>
+      </Router>
+    </Provider>);
+  }
+}
 
 AppRegistry.registerComponent('LoveBank', () => LoveBank);

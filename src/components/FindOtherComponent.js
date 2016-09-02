@@ -100,7 +100,7 @@ export default class FindOtherComponent extends Component {
           textInputStyle={{ color: '#fff' }}
           keyboardType="email-address"
           onSubmitEditing={this.onClick}
-          style={{ margin: 40, width: width - 80 }}
+          style={{ margin: 40, width: width - 80, height: 50 }}
           onChangeText={this.onChangeText}
         />
         <FlatButton

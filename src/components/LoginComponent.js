@@ -35,7 +35,7 @@ export default class LoginComponent extends Component {
   static propTypes = {
     user: React.PropTypes.object.isRequired,
     login: React.PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -51,7 +51,7 @@ export default class LoginComponent extends Component {
         email: value,
       },
     });
-  }
+  };
 
   onClick = () => {
     API.getProfileByEmail(this.state.user.email)
@@ -65,7 +65,7 @@ export default class LoginComponent extends Component {
       }, () => {
         this.setState({ invalid: true });
       });
-  }
+  };
 
   render() {
     const { width } = Dimensions.get('window');
@@ -94,7 +94,7 @@ export default class LoginComponent extends Component {
           tintColor="#fff"
           highlightColor="#CC0000"
           textInputStyle={{ color: '#fff' }}
-          style={{ margin: 40, width: width - 80 }}
+          style={{ margin: 40, width: width - 80, height: 50 }}
           keyboardType="email-address"
           onSubmitEditing={this.onClick}
           defaultValue={this.state.user.email}
