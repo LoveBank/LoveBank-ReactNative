@@ -32,7 +32,7 @@ export default class api {
   }
 
   static getEntriesForUser(id) {
-    return this.wrapPromise(fetch(`${endpoint}/profiles/${id}/entries`))
+    return this.wrapPromise(fetch(`${endpoint}/profiles/${id}/entries?sort=-occurred-on`))
       .map(x => x.data.map(entry => Object.assign({}, entry.attributes, { id })));
   }
 
