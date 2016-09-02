@@ -6,6 +6,7 @@ import { createStore, compose } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 
 import Reactotron from 'reactotron';
+import Util from './src/util/util';
 import Login from './src/containers/Login';
 import FindOther from './src/containers/FindOther';
 import Review from './src/containers/Review';
@@ -64,14 +65,14 @@ class LoveBank extends Component {
           <Scene
             key="login"
             title="Login"
-            initial={this.state.user ? false : true}
+            initial={!Util.isEmpty(this.state.user) ? false : true}
             hideNavBar
             component={Login}
           />
           <Scene
             key="findother"
             title="FindOther"
-            initial={this.state.user && !this.state.other ? true : false}
+            initial={!Util.isEmpty(this.state.user) && Util.isEmpty(this.state.other) ? true : false}
             hideNavBar
             component={FindOther}
           />
@@ -79,10 +80,10 @@ class LoveBank extends Component {
             key="review"
             hideNavBar={false}
             navigationBarStyle={{ backgroundColor: '#c62828' }}
-            titleStyle={{ color: '#fff' }}
+            titleStyle={{ color: '#fff', fontWeight: 'bold', textAlign: 'left', marginLeft: 20 }}
             sceneStyle={{ paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight - 2 }}
             title="Love Treasury"
-            initial={this.state.user && this.state.other ? true : false}
+            initial={!Util.isEmpty(this.state.user) && !Util.isEmpty(this.state.other) ? true : false}
             component={Review}
           >
           </Scene>

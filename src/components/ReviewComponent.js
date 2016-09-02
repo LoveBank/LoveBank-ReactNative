@@ -138,6 +138,12 @@ export default class ReviewComponent extends Component {
           <ActivityIndicator color="#fff" size="large" animating />
         </View>
       );
+    } else if (this.state.entries.length === 0) {
+      return (
+        <View style={styles.container}>
+          <Text>It appears that there are not entries. Go ahead and submit some!</Text>
+        </View>
+      );
     }
     return (
       <View style={styles.container}>

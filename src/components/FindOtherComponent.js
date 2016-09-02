@@ -52,6 +52,7 @@ export default class FindOtherComponent extends Component {
     super(props);
     this.state = {
       other: { ...props.other },
+      invalid: false,
     };
   }
 
@@ -66,8 +67,14 @@ export default class FindOtherComponent extends Component {
   onClick = () => {
     API.getProfileByEmail(this.state.other.email)
       .subscribe(other => {
-        this.props.set(other);
-        Actions.review();
+        if (Object.keys(other).length === 0) {
+          this.setState({ invalid: true });
+        } else {
+          this.props.set(other);
+          Actions.review();
+        }
+      }, () => {
+        this.setState({ invalid: true });
       });
   }
 
@@ -82,17 +89,22 @@ export default class FindOtherComponent extends Component {
         <Text style={styles.title}>
           Please enter the email of your <Icon size={20} name="heart" color="#fff" />
         </Text>
+        <Text style={styles.title}>
+          {this.state.invalid ? "That email doesn't seem to be in our system, please try another?" : ""}
+        </Text>
         <TextfieldWithFloatingLabel
           placeholder="Email"
           placeholderTextColor="#fff"
           tintColor="#fff"
           highlightColor="#CC0000"
           textInputStyle={{ color: '#fff' }}
+          keyboardType="email-address"
+          onSubmitEditing={this.onClick}
           style={{ margin: 40, width: width - 80 }}
           onChangeText={this.onChangeText}
         />
         <FlatButton
-          onPress={() => this.onClick()}
+          onPress={this.onClick}
           backgroundColor="highlightC0"
           shadowRadius={2}
           shadowOffset={{ width: 0, height: 2 }}

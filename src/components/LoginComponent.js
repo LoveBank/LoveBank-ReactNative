@@ -41,6 +41,7 @@ export default class LoginComponent extends Component {
     super(props);
     this.state = {
       user: { ...props.user },
+      invalid: false,
     };
   }
 
@@ -55,8 +56,14 @@ export default class LoginComponent extends Component {
   onClick = () => {
     API.getProfileByEmail(this.state.user.email)
       .subscribe(user => {
-        this.props.login(user);
-        Actions.findother();
+        if (Object.keys(user).length === 0) {
+          this.setState({ invalid: true });
+        } else {
+          this.props.login(user);
+          Actions.findother();
+        }
+      }, () => {
+        this.setState({ invalid: true });
       });
   }
 
@@ -70,6 +77,9 @@ export default class LoginComponent extends Component {
         />
         <Text style={styles.title}>
           <Icon size={20} name="heart" color="#fff" /> Treasury
+        </Text>
+        <Text style={styles.title}>
+          {this.state.invalid ? "That email doesn't seem to be in our system, please try another?" : ""}
         </Text>
         <TextField
           floatingLabelFont={{
@@ -85,11 +95,13 @@ export default class LoginComponent extends Component {
           highlightColor="#CC0000"
           textInputStyle={{ color: '#fff' }}
           style={{ margin: 40, width: width - 80 }}
+          keyboardType="email-address"
+          onSubmitEditing={this.onClick}
           defaultValue={this.state.user.email}
           onChangeText={this.onChangeText}
         />
         <FlatButton
-          onPress={() => this.onClick()}
+          onPress={this.onClick}
           backgroundColor="highlightC0"
           shadowRadius={2}
           shadowOffset={{ width: 0, height: 2 }}
