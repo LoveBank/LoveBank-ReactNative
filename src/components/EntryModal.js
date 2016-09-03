@@ -6,7 +6,6 @@ import {
   Modal,
   View,
   Dimensions,
-  Picker,
 } from 'react-native';
 
 import {
