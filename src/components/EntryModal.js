@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     marginTop: 80,
   },
   heading3: {
+    color: '#fff',
     fontSize: 14,
     fontWeight: 'bold',
     margin: 5,
@@ -101,13 +102,13 @@ export default class EntryModal extends Component {
           />
           <StarRating
             disabled={false}
-            emptyStar={'ios-heart-outline'}
-            fullStar={'ios-heart'}
-            iconSet={'Ionicons'}
+            emptyStar={'heart-o'}
+            fullStar={'heart'}
             maxStars={5}
             rating={this.state.starCount}
             selectedStar={(rating) => this.onStarRatingPress(rating)}
-            starColor={'red'}
+            starColor={'white'}
+            emptyStarColor={'white'}
           />
           <View>
             <FlatButton
