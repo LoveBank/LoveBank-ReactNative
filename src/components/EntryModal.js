@@ -8,6 +8,8 @@ import {
   Dimensions,
 } from 'react-native';
 
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 import {
   MKTextField as TextField,
   MKButton,
@@ -129,6 +131,7 @@ export default class EntryModal extends Component {
                 }}
               >Submit</Text>
             </FlatButton>
+            <KeyboardSpacer />
           </View>
           <TouchableHighlight onPress={this.props.onRequestClose} style={{ position: 'absolute', top: 20, right: 20 }}>
             <Icon size={20} name="times" color="#fff" />
