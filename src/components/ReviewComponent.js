@@ -15,6 +15,8 @@ import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EntryModal from './EntryModal';
 import api from '../api/api';
+import TimeAgo from 'react-native-timeago';
+
 
 const styles = StyleSheet.create({
   entryText: {
@@ -107,6 +109,9 @@ export default class ReviewComponent extends Component {
   renderRow = (entry) =>
     <TouchableHighlight style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ alignSelf: 'stretch', margin: 20 }}>
+      <Text style={entry.id === this.props.user.id ? styles.myEntryText : styles.entryText}>
+        <TimeAgo time={entry['occurred-on']} />
+      </Text>
         <Text style={entry.id === this.props.user.id ? styles.myEntryText : styles.entryText}>
           {entry.note}
         </Text>
