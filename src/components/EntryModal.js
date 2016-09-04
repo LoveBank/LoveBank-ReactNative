@@ -6,7 +6,6 @@ import {
   Modal,
   View,
   Dimensions,
-  Picker,
 } from 'react-native';
 
 import {
@@ -15,6 +14,7 @@ import {
 } from 'react-native-material-kit';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import StarRating from 'react-native-star-rating';
 
 const { width, height } = Dimensions.get('window');
 const FlatButton = MKButton.coloredButton().build();
@@ -28,6 +28,13 @@ const styles = StyleSheet.create({
     height: height - (height * 0.5),
     width: width - 40,
     margin: 20,
+    marginTop: 80,
+  },
+  heading3: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    margin: 5,
     marginTop: 80,
   },
 });
@@ -55,6 +62,12 @@ export default class EntryModal extends Component {
     });
   }
 
+  onStarRatingPress(rating) {
+    this.setState({
+      starCount: rating,
+    });
+  }
+
   render() {
     return (
       <Modal
@@ -64,6 +77,7 @@ export default class EntryModal extends Component {
         onRequestClose={this.props.onRequestClose}
       >
         <View style={styles.container}>
+          <Text style={styles.heading3}>What are you giving your partner credit for?</Text>
           <TextField
             floatingLabelFont={{
               fontSize: 10,
@@ -71,35 +85,34 @@ export default class EntryModal extends Component {
               fontWeight: '200',
               color: '#fff',
             }}
-            placeholder="Entry"
+            placeholder="Journal Entry"
             multiline
             placeholderTextColor="#fff"
             tintColor="#fff"
             highlightColor="#fff"
             textInputStyle={{ color: '#fff' }}
-            style={{ margin: 40, marginTop: 0, width: width - 80, height: 200 }}
+            style={{ margin: 0,
+              marginTop: 0,
+              width: width - 80,
+              height: 200,
+              backgroundColor: '#000',
+              borderWidth: 0.5,
+              borderRadius: 4 }}
             onChangeText={this.onChangeText}
           />
-          <Picker
-            style={{
-              width: width - 80,
-              color: '#fff',
-            }}
-            selectedValue={this.state.rating}
-            onValueChange={(rating) => {
-              this.setState({ rating });
-            }}
-            mode="dialog"
-          >
-            <Picker.Item label="1" value={1} />
-            <Picker.Item label="2" value={2} />
-            <Picker.Item label="3" value={3} />
-            <Picker.Item label="4" value={4} />
-            <Picker.Item label="5" value={5} />
-          </Picker>
+          <StarRating
+            disabled={false}
+            emptyStar={'heart-o'}
+            fullStar={'heart'}
+            maxStars={5}
+            rating={this.state.starCount}
+            selectedStar={(rating) => this.onStarRatingPress(rating)}
+            starColor={'white'}
+            emptyStarColor={'white'}
+          />
           <View>
             <FlatButton
-              onPress={() => this.props.onSubmit(this.state.entry, this.state.rating)}
+              onPress={() => this.props.onSubmit(this.state.entry, this.state.starCount)}
               backgroundColor="highlightC0"
               shadowRadius={2}
               shadowOffset={{ width: 0, height: 2 }}

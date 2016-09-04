@@ -1,6 +1,9 @@
 import RxJs from 'rxjs';
 
-const endpoint = 'https://frank.treasury.love';
+let endpoint = 'https://frank.treasury.love';
+if (__DEV__) {
+  endpoint = 'https://frank-api-dev.herokuapp.com';
+}
 const defaultHeaders = { 'Content-type': 'application/vnd.api+json' };
 
 export default class api {
