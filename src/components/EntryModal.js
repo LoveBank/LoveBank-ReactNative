@@ -102,34 +102,26 @@ export default class EntryModal extends Component {
               borderRadius: 4 }}
             onChangeText={this.onChangeText}
           />
-          <StarRating
-            disabled={false}
-            emptyStar={'heart-o'}
-            fullStar={'heart'}
-            maxStars={5}
-            rating={this.state.starCount}
-            selectedStar={(rating) => this.onStarRatingPress(rating)}
-            starColor={'white'}
-            emptyStarColor={'white'}
-          />
-          <View>
+          <View style={{ flexDirection: 'row' }}>
+            <StarRating
+              disabled={false}
+              emptyStar={'heart-o'}
+              fullStar={'heart'}
+              maxStars={5}
+              rating={this.state.starCount}
+              selectedStar={(rating) => this.onStarRatingPress(rating)}
+              starColor={'white'}
+              emptyStarColor={'white'}
+            />
             <FlatButton
               onPress={() => this.props.onSubmit(this.state.entry, this.state.starCount)}
-              backgroundColor="highlightC0"
               shadowRadius={2}
               shadowOffset={{ width: 0, height: 2 }}
               shadowOpacity={0.7}
               shadowColor="black"
-              style={{ backgroundColor: '#CC0000', width: width - 100 }}
+              style={{ height: 40 }}
             >
-              <Text
-                style={{ color: 'white',
-                  fontWeight: 'bold',
-                  fontSize: 20,
-                  margin: 5,
-                  textAlign: 'center',
-                }}
-              >Submit</Text>
+              <Icon size={20} name="paper-plane" color="#fff">Submit</Icon>
             </FlatButton>
             <KeyboardSpacer />
           </View>
